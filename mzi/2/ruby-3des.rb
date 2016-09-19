@@ -38,3 +38,4 @@ class Three_des
   end
 end
 p Three_des.decrypt(Three_des.encrypt('mysecret').string).string
+p Three_des.encrypt('mysecret').string

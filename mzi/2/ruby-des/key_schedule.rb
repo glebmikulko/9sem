@@ -1,3 +1,4 @@
+require 'pry'
 class KeySchedule
   attr_accessor :sub_keys
   attr_reader :key

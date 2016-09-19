@@ -1,5 +1,6 @@
 $:.unshift(File.dirname(__FILE__))
 
+require 'pry'
 require 'ruby-des/feistel'
 require 'ruby-des/key_schedule'
 require 'ruby-des/xor'
@@ -78,6 +79,7 @@ module RubyDES
         
         @string    = input
         @bit_array = input.unpack('B*').join.split('').collect{|b| b.to_i}
+
       elsif input.is_a?(Array)
         raise "RubyDES::InvalidArraySize: Input Array must contain (64) bits." unless input.size.eql?(64)
         
