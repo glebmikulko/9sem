@@ -120,6 +120,7 @@ class Rijndael
    nr=@ek.size/4-1
    a^=@ek[0,4]         # add round key
    1.upto(nr) { |round|
+     binding.pry
     k=@ek[round*4,4]
     e=[]
     0.upto(3) { |j|
