@@ -3,8 +3,8 @@ require 'pry'
 require 'openssl'
 
 module RSA
-  BITS_SIZE = 24 
-  BITS_SIZE_FOR_EXP = 12
+  BITS_SIZE = 1024 
+  BITS_SIZE_FOR_EXP = 512
 
   def self.quick_pow(a, p, m)
     b = 1
@@ -47,8 +47,8 @@ module RSA
     attr_accessor :n, :e
     def initialize
       # [p, q] pair
-      @p = OpenSSL::BN::rand(BITS_SIZE).to_i
-      @q = OpenSSL::BN::rand(BITS_SIZE).to_i
+      @p = OpenSSL::BN::generate_prime(BITS_SIZE).to_i
+      @q = OpenSSL::BN::generate_prime(BITS_SIZE).to_i
       # n
       @n = @p * @q
       # Euler function
@@ -57,7 +57,6 @@ module RSA
       # find inverse for exp
       _, @d, _ = ::RSA::find_inverse(@e, @fi)
       @d += @fi if @d < 0
-      binding.pry
     end
 
     def encrypt(blocks)
@@ -69,15 +68,3 @@ module RSA
     end
   end
 end
-
-rsa = RSA::RSA.new
-print "Message: "
-message = gets 
-blocks = RSA::text_to_blocks message, 8 
-print "Numbers: "; p blocks
-encoded = rsa.encrypt(blocks)
-print "Encrypted as: "; p encoded
-decoded = rsa.decrypt(encoded)
-print "Decrypted to: "; p decoded
-final = RSA::blocks_to_text(decoded)
-print "Decrypted Message: "; puts final
